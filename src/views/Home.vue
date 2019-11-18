@@ -4,13 +4,34 @@
     <div id="sidebarTheme">
       <div class="sidebar">
         <ul>
-          <li @click="flag=false"><span class="icon iconfont klineguanji"></span></li>
-          <li @click="flag=1"><span class="icon iconfont klinewendang"></span></li>
-          <li @click="flag=2"><span class="icon iconfont klineclock"></span></li>
-          <li @click="flag=3"><span class="icon iconfont klinefire"></span></li>
-          <li @click="flag=4"><span class="icon iconfont klineDate"></span></li>
-          <li @click="flag=5"><span class="icon iconfont klinemessage"></span></li>
-          <li @click="flag=6"><span class="icon iconfont klinelight"></span></li>
+          <li @click="flag=false"  @mouseenter="tipFlag='关闭'" @mouseleave="tipFlag=false">
+            <span class="icon iconfont klineguanji"></span>
+            <span  class="tip" v-show="tipFlag=='关闭'">关闭</span>
+          </li>
+          <li @click="flag=1" :class="{select:flag==1}" @mouseenter="tipFlag='数据窗口'" @mouseleave="tipFlag=false">
+            <span class="icon iconfont klinewendang"></span>
+            <span class="tip" v-show="tipFlag=='数据窗口'">数据窗口</span>
+          </li>
+          <li @click="flag=2" :class="{select:flag==2}" @mouseenter="tipFlag='管理警报'" @mouseleave="tipFlag=false">
+            <span class="icon iconfont klineclock"></span>
+            <span class="tip" v-show="tipFlag=='管理警报'">管理警报</span>
+          </li>
+          <li @click="flag=3" :class="{select:flag==3}" @mouseenter="tipFlag='成交量'" @mouseleave="tipFlag=false">
+            <span class="icon iconfont klinefire"></span>
+            <span class="tip" v-show="tipFlag=='成交量'">成交量</span>
+          </li>
+          <li @click="flag=4" :class="{select:flag==4}" @mouseenter="tipFlag='财经日历'" @mouseleave="tipFlag=false">
+            <span class="icon iconfont klineDate"></span>
+            <span class="tip" v-show="tipFlag=='财经日历'">财经日历</span>
+          </li>
+          <li @click="flag=5" :class="{select:flag==5}" @mouseenter="tipFlag='新闻'" @mouseleave="tipFlag=false">
+            <span class="icon iconfont klinemessage"></span>
+            <span class="tip" v-show="tipFlag=='新闻'">新闻</span>
+          </li>
+          <li @click="flag=6" :class="{select:flag==6}" @mouseenter="tipFlag='LWSB'" @mouseleave="tipFlag=false">
+            <span class="icon iconfont klinelight"></span>
+            <span class="tip" v-show="tipFlag=='LWSB'">LWSB</span>
+          </li>
         </ul>
       </div>
       <div class="content" v-show="flag==1">
@@ -43,6 +64,7 @@ export default {
   data () {
     return {
       flag: false,
+      tipFlag: true,
       screenWidth: document.body.clientWidth,
       screenHeight: document.body.clientWidth,
       klineParams: {
@@ -82,7 +104,6 @@ export default {
         this.screenWidth = document.body.clientWidth
         this.screenHeight = document.body.clientHeight
         that.flag !== false ? this.$refs.callMethods.resize(this.screenWidth - 50 - 280, this.screenHeight) : this.$refs.callMethods.resize(this.screenWidth - 50, this.screenHeight)
-        // that.$refs.callMethods.resize(this.screenWidth - 50, this.screenHeight)
       })()
     }
   }
@@ -101,25 +122,33 @@ body {
     width: 50px;
     z-index: 999;
     height: 100%;
-    border-left: 1px solid #ccc;
     ul{
       list-style: none;
       margin: 0;
       cursor: pointer;
-      padding: 4px;
+      padding: 0px;
       box-sizing: border-box;
       li{
-        width: 40px;
-        height: 40px;
-        line-height: 40px;
-        margin-top: 10px;
+        width: 50px;
+        height: 55px;
+        line-height: 55px;
+        position: relative;
         .icon{
           font-size: 22px;
         }
-      }
-      li:hover{
-        background-color: #eee;
-        border-radius: 5px;
+        .tip{
+          height: 22px;
+          padding: 2px 10px;
+          border-radius: 4px;
+          line-height: 22px;
+          font-size: 12px;
+          display: inline-block;
+          white-space: nowrap;
+          position: absolute;
+          top: 16px;
+          right: 51px;
+          z-index: 999;
+        }
       }
     }
   }
@@ -129,7 +158,7 @@ body {
     position: absolute;
     top: 0;
     right: 51px;
-    z-index: 999;
+    z-index: 99;
     border-left: 1px solid #ccc;
     padding: 2px;
     box-sizing: border-box;
@@ -152,8 +181,15 @@ body {
     ul li .icon{
       color: #333;
     }
-    ul li:hover{
+    .tip{
+      background-color: #262B3E;
+      color: #fff;
+    }
+    .select {
       background-color: #eee;
+      .icon{
+        color: #2196F3;
+      }
     }
   }
   .content{
@@ -171,8 +207,15 @@ body {
     ul li .icon{
       color: #72757F;
     }
-    ul li:hover{
-      background-color: #2A2E39;
+    .tip{
+      background-color: #4F5966;
+      color: #fff;
+    }
+    .select {
+      background-color: #000;
+      .icon{
+        color: #2196F3;
+      }
     }
   }
   .content{
